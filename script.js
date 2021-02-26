@@ -3,8 +3,8 @@ const btn = document.querySelector('button');
 
 let hasStarted = false;
 
-let minutes = 0;
-let seconds = 0;
+let minutes = 1;
+let seconds = 5;
 
 const parseTime = () => {
   return minutes < 10 && seconds < 10
@@ -23,17 +23,17 @@ const timerLogic = () => {
   let currentTimerValue;
   let intervalId = setInterval(() => {
     if (hasStarted) {
-      // if (seconds <= 0 && minutes <= 0) {
-      //   return clearInterval(intervalId);
-      // }
+      if (seconds <= 0 && minutes <= 0) {
+        return clearInterval(intervalId);
+      }
 
-      if (seconds === 59) {
-        minutes++;
-        seconds = 0;
+      if (seconds === 0) {
+        minutes--;
+        seconds = 59;
         currentTimerValue = parseTime();
         timerDOMTag.innerText = currentTimerValue;
       } else {
-        seconds++;
+        seconds--;
         // console.log(seconds);
         currentTimerValue = parseTime();
         timerDOMTag.innerText = currentTimerValue;
