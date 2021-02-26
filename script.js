@@ -1,25 +1,50 @@
-const seconds = document.getElementById('time');
+const timerDOMTag = document.getElementById('time');
 const btn = document.querySelector('button');
-let sec = 0;
+
 let hasStarted = false;
+
+let minutes = 0;
+let seconds = 0;
+
+const parseTime = () => {
+  return minutes < 10 && seconds < 10
+    ? `0${minutes}m:0${seconds}s`
+    : minutes >= 10 && seconds < 10
+    ? `${minutes}m:0${seconds}s`
+    : minutes >= 10 && seconds >= 10
+    ? `${minutes}m:${seconds}s`
+    : minutes < 10 && seconds >= 10
+    ? `0${minutes}m:${seconds}s`
+    : null;
+};
 
 //! setInterval approach (not working on pause/resume)
 const timerLogic = () => {
+  let currentTimerValue;
   let intervalId = setInterval(() => {
     if (hasStarted) {
-      sec++;
-      console.log(sec);
-      seconds.innerText = sec;
+      // if (seconds <= 0 && minutes <= 0) {
+      //   return clearInterval(intervalId);
+      // }
+
+      if (seconds === 59) {
+        minutes++;
+        seconds = 0;
+        currentTimerValue = parseTime();
+        timerDOMTag.innerText = currentTimerValue;
+      } else {
+        seconds++;
+        // console.log(seconds);
+        currentTimerValue = parseTime();
+        timerDOMTag.innerText = currentTimerValue;
+      }
     } else {
-      console.log('I should just run once, run when hastStarted = false');
       clearInterval(intervalId);
     }
   }, 1000);
 };
 
 btn.addEventListener('click', () => {
-  console.log('I was clicked 😨');
-
   if (hasStarted) {
     hasStarted = false;
     btn.classList.toggle('stop');
@@ -32,4 +57,4 @@ btn.addEventListener('click', () => {
   }
 });
 
-seconds.innerText = sec;
+timerDOMTag.innerText = `00m:00s`;
