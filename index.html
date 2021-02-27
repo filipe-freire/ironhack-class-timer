@@ -22,8 +22,8 @@
             value="0"
             placeholder="0"
           />
-          <button class="controls minutes-increase-btn">👆</button>
-          <button class="controls minutes-decrease-btn">👇</button>
+          <button aria-label="Increment minutes" class="controls minutes-increase-btn">👆</button>
+          <button aria-label="Decrement minutes" class="controls minutes-decrease-btn">👇</button>
         </div>
         <div class="seconds-container">
           <label for="seconds">Seconds</label>
@@ -36,8 +36,8 @@
             value="0"
             placeholder="0"
           />
-          <button class="controls seconds-increase-btn">👆</button>
-          <button class="controls seconds-decrease-btn">👇</button>
+          <button aria-label="Increment seconds" class="controls seconds-increase-btn">👆</button>
+          <button aria-label="Decrement seconds" class="controls seconds-decrease-btn">👇</button>
         </div>
       </div>
       <div class="btn-wrapper">
@@ -45,7 +45,10 @@
         <!-- <button id="resetBtn">SET</button> -->
       </div>
     </div>
-    <footer>Full Stack Web Development Bootcamp | Remote | Part-Time</footer>
+    <footer>
+      Full Stack Web Development Bootcamp | Remote | Part-Time -
+      <span class="author">Filipe Freire</span>
+    </footer>
     <script src="./script.js"></script>
   </body>
   <!-- Made with 💙 by Filipe Freire, WebDev TA at IronHack-->
