@@ -50,7 +50,7 @@ footer {
 
 h1 {
   text-align: center;
-  padding-top: 1em;
+  margin: 1em auto;
   font-family: var(--font-secondary);
   font-size: 4em;
   font-weight: 300;
@@ -60,7 +60,7 @@ p {
   font-family: var(--font-timer), monospace;
   text-align: center;
   margin-top: 1em;
-  font-size: 2em;
+  font-size: 3.5em;
 }
 
 button {
@@ -105,7 +105,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 input[type='number'] {
@@ -119,7 +119,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .seconds-container {
-  margin-left: 1em;
+  margin-top: 1em;
 }
 
 .minutes-container,
@@ -144,7 +144,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 .minutes-container > label,
 .seconds-container > label {
-  font-size: 1.5rem;
+  font-size: 1.9rem;
   font-family: var(--font-secondary);
   letter-spacing: 0.2ch;
   text-transform: uppercase;
