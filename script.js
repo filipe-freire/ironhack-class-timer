@@ -119,6 +119,7 @@ startBtn.addEventListener('click', () => {
   }
 });
 
+//TODO: FIX SET FUNCTIONALITY
 resetBtn.addEventListener('click', () => {
   hasStarted = false;
 });
