@@ -8,10 +8,45 @@
     <title>JS-TIMER</title>
   </head>
   <body>
-    <h1><span class="bold">Web Dev</span> - Class Timer</h1>
-    <p><span id="time"></span></p>
-    <button>START</button>
+    <div class="main-container">
+      <h1><span class="bold">Web Dev</span> - Class Timer</h1>
+      <p><span id="time"></span></p>
+      <div class="setup">
+        <div class="minutes-container">
+          <label for="minutes">Minutes</label>
+          <input
+            id="minutes"
+            min="0"
+            onchange="setTimer()"
+            type="number"
+            value="15"
+            placeholder="0"
+          />
+          <button class="controls minutes-increase-btn">👆</button>
+          <button class="controls minutes-decrease-btn">👇</button>
+        </div>
+        <div class="seconds-container">
+          <label for="seconds">Seconds</label>
+          <input
+            id="seconds"
+            min="0"
+            max="59"
+            onchange="setTimer()"
+            type="number"
+            value="0"
+            placeholder="0"
+          />
+          <button class="controls seconds-increase-btn">👆</button>
+          <button class="controls seconds-decrease-btn">👇</button>
+        </div>
+      </div>
+      <div class="btn-wrapper">
+        <button id="startBtn">START</button>
+        <button id="resetBtn">SET</button>
+      </div>
+    </div>
     <footer>Full Stack Web Development Bootcamp | Remote | Part-Time</footer>
     <script src="/script.js"></script>
   </body>
+  <!-- Made with 💙 by Filipe Freire, WebDev TA at IronHack-->
 </html>

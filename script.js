@@ -1,12 +1,71 @@
 const timerDOMTag = document.getElementById('time');
-const btn = document.querySelector('button');
+const startBtn = document.getElementById('startBtn');
+const resetBtn = document.getElementById('resetBtn');
 
+let minutesInput = document.getElementById('minutes'); // .value;
+let secondsInput = document.getElementById('seconds'); // .value;
+
+let minutes = 0;
+let seconds = 0;
 let hasStarted = false;
+let hasReset = false;
 
-let minutes = 1;
-let seconds = 5;
+function setTimer() {
+  if (seconds.value >= 60) {
+    seconds.value = 59;
+  }
 
-const parseTime = () => {
+  if (!hasStarted) {
+    minutes = minutesInput.value;
+    seconds = secondsInput.value;
+    if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0) return;
+
+    if (seconds > 59) {
+      seconds = 59;
+      secondsInput.value = 59;
+    }
+
+    if (seconds < 0) {
+      seconds = 0;
+      secondsInput.value = 0;
+    }
+    timerDOMTag.innerText = parseTime();
+  }
+  return;
+}
+
+const increaseMinutesBtn = document
+  .querySelector('.minutes-increase-btn')
+  .addEventListener('click', () => {
+    minutesInput.value++;
+    setTimer();
+  });
+
+const decreaseMinutesBtn = document
+  .querySelector('.minutes-decrease-btn')
+  .addEventListener('click', () => {
+    if (minutesInput.value - 1 < 0) return;
+    minutesInput.value--;
+    setTimer();
+  });
+
+const increaseSecondsBtn = document
+  .querySelector('.seconds-increase-btn')
+  .addEventListener('click', () => {
+    if (secondsInput.valueAsNumber + 1 >= 60) return;
+    secondsInput.value++;
+    setTimer();
+  });
+
+const decreaseSecondsBtn = document
+  .querySelector('.seconds-decrease-btn')
+  .addEventListener('click', () => {
+    if (secondsInput.value - 1 < 0) return;
+    secondsInput.value--;
+    setTimer();
+  });
+
+function parseTime() {
   return minutes < 10 && seconds < 10
     ? `0${minutes}m:0${seconds}s`
     : minutes >= 10 && seconds < 10
@@ -16,7 +75,7 @@ const parseTime = () => {
     : minutes < 10 && seconds >= 10
     ? `0${minutes}m:${seconds}s`
     : null;
-};
+}
 
 //! setInterval approach (not working on pause/resume)
 const timerLogic = () => {
@@ -44,17 +103,24 @@ const timerLogic = () => {
   }, 1000);
 };
 
-btn.addEventListener('click', () => {
+startBtn.addEventListener('click', () => {
+  if (seconds < 0 || seconds > 59 || minutes < 0 || (minutes === 0 && seconds === 0)) {
+    return;
+  }
   if (hasStarted) {
     hasStarted = false;
-    btn.classList.toggle('stop');
-    btn.innerText = 'START';
+    startBtn.classList.toggle('stop');
+    startBtn.innerText = 'START';
   } else {
     hasStarted = true;
-    btn.classList.toggle('stop');
-    btn.innerText = 'STOP';
+    startBtn.classList.toggle('stop');
+    startBtn.innerText = 'STOP';
     timerLogic();
   }
+});
+
+resetBtn.addEventListener('click', () => {
+  hasStarted = false;
 });
 
 timerDOMTag.innerText = `00m:00s`;
