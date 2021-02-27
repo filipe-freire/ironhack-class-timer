@@ -1,6 +1,8 @@
 const timerDOMTag = document.getElementById('time');
 const startBtn = document.getElementById('startBtn');
-const resetBtn = document.getElementById('resetBtn');
+
+//TODO: FIX SET FUNCTIONALITY
+// const resetBtn = document.getElementById('resetBtn');
 
 let minutesInput = document.getElementById('minutes'); // .value;
 let secondsInput = document.getElementById('seconds'); // .value;
@@ -16,8 +18,8 @@ function setTimer() {
   }
 
   if (!hasStarted) {
-    minutes = minutesInput.value;
-    seconds = secondsInput.value;
+    minutes = +minutesInput.value;
+    seconds = +secondsInput.value;
     if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0) return;
 
     if (seconds > 59) {
@@ -120,8 +122,8 @@ startBtn.addEventListener('click', () => {
 });
 
 //TODO: FIX SET FUNCTIONALITY
-resetBtn.addEventListener('click', () => {
-  hasStarted = false;
-});
+// resetBtn.addEventListener('click', () => {
+//   hasStarted = false;
+// });
 
 timerDOMTag.innerText = `00m:00s`;
