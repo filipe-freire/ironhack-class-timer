@@ -5,13 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
-    <title>JS-TIMER</title>
+    <title>IronHack Class Timer</title>
+    <meta
+      name="description"
+      content="A simple page showing a timer used to properly time breaks during IronHack Bootcamp Classes! Built with HTML | CSS | JavaScript"
+    />
   </head>
   <body>
-    <div class="main-container">
-      <h1><span class="bold">Web Dev</span> - Class Timer</h1>
+    <header>
+      <h1>
+        <span class="bold">Web Dev</span> <br />
+        Class Timer
+      </h1>
+    </header>
+    <main class="main-container">
       <p><span id="time"></span></p>
-      <div class="setup">
+      <section class="setup">
         <div class="minutes-container">
           <label for="minutes">Minutes</label>
           <input
@@ -19,7 +28,7 @@
             min="0"
             onchange="setTimer()"
             type="number"
-            value="0"
+            value="15"
             placeholder="0"
           />
           <button aria-label="Increment minutes" class="controls minutes-increase-btn">👆</button>
@@ -39,17 +48,20 @@
           <button aria-label="Increment seconds" class="controls seconds-increase-btn">👆</button>
           <button aria-label="Decrement seconds" class="controls seconds-decrease-btn">👇</button>
         </div>
-      </div>
+      </section>
       <div class="btn-wrapper">
         <button id="startBtn">START</button>
-        <!-- <button id="resetBtn">SET</button> -->
+        <button id="resetBtn">SET</button>
       </div>
-    </div>
+    </main>
     <footer>
       Full Stack Web Development Bootcamp | Remote | Part-Time -
       <span class="author">Filipe Freire</span>
     </footer>
     <script src="./script.js"></script>
   </body>
-  <!-- Made with 💙 by Filipe Freire, WebDev TA at IronHack-->
+  <!--
+    Made with 💙 by Filipe Freire, WebDev TA at IronHack!
+    ➡ Feel free to check other things I created at https://github.com/filipe-freire
+  -->
 </html>

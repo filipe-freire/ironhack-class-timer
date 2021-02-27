@@ -2,15 +2,26 @@ const timerDOMTag = document.getElementById('time');
 const startBtn = document.getElementById('startBtn');
 
 //TODO: FIX SET FUNCTIONALITY
-// const resetBtn = document.getElementById('resetBtn');
+const resetBtn = document.getElementById('resetBtn');
 
 let minutesInput = document.getElementById('minutes'); // .value;
 let secondsInput = document.getElementById('seconds'); // .value;
 
-let minutes = 0;
+let minutes = 15;
 let seconds = 0;
 let hasStarted = false;
-let hasReset = false;
+
+function parseTime() {
+  return minutes < 10 && seconds < 10
+    ? `0${minutes}m:0${seconds}s`
+    : minutes >= 10 && seconds < 10
+    ? `${minutes}m:0${seconds}s`
+    : minutes >= 10 && seconds >= 10
+    ? `${minutes}m:${seconds}s`
+    : minutes < 10 && seconds >= 10
+    ? `0${minutes}m:${seconds}s`
+    : null;
+}
 
 function setTimer() {
   if (seconds.value >= 60) {
@@ -67,63 +78,69 @@ const decreaseSecondsBtn = document
     setTimer();
   });
 
-function parseTime() {
-  return minutes < 10 && seconds < 10
-    ? `0${minutes}m:0${seconds}s`
-    : minutes >= 10 && seconds < 10
-    ? `${minutes}m:0${seconds}s`
-    : minutes >= 10 && seconds >= 10
-    ? `${minutes}m:${seconds}s`
-    : minutes < 10 && seconds >= 10
-    ? `0${minutes}m:${seconds}s`
-    : null;
+function setBtnToStart() {
+  hasStarted = false;
+  startBtn.classList.toggle('stop');
+  startBtn.innerText = 'START';
 }
 
-//! setInterval approach (not working on pause/resume)
+function setBtnToStop() {
+  hasStarted = true;
+  startBtn.classList.toggle('stop');
+  startBtn.innerText = 'STOP';
+}
+
 const timerLogic = () => {
   let currentTimerValue;
   let intervalId = setInterval(() => {
     if (hasStarted) {
       if (seconds <= 0 && minutes <= 0) {
+        setBtnToStart();
         return clearInterval(intervalId);
       }
-
       if (seconds === 0) {
         minutes--;
         seconds = 59;
-        currentTimerValue = parseTime();
-        timerDOMTag.innerText = currentTimerValue;
       } else {
         seconds--;
-        // console.log(seconds);
-        currentTimerValue = parseTime();
-        timerDOMTag.innerText = currentTimerValue;
       }
+      currentTimerValue = parseTime();
+      timerDOMTag.innerText = currentTimerValue;
     } else {
       clearInterval(intervalId);
     }
   }, 1000);
 };
 
+// prevent double clicking on button
+let processing = false;
 startBtn.addEventListener('click', () => {
-  if (seconds < 0 || seconds > 59 || minutes < 0 || (minutes === 0 && seconds === 0)) {
-    return;
-  }
-  if (hasStarted) {
-    hasStarted = false;
-    startBtn.classList.toggle('stop');
-    startBtn.innerText = 'START';
-  } else {
-    hasStarted = true;
-    startBtn.classList.toggle('stop');
-    startBtn.innerText = 'STOP';
-    timerLogic();
+  if (!processing) {
+    processing = true;
+    const x = setTimeout(() => {
+      if (seconds < 0 || seconds > 59 || minutes < 0 || (minutes === 0 && seconds === 0)) {
+        return;
+      }
+      if (hasStarted) {
+        setBtnToStart();
+      } else {
+        resetBtn.style.display = 'block';
+        setBtnToStop();
+        timerLogic();
+      }
+      processing = false;
+    }, 300);
   }
 });
 
-//TODO: FIX SET FUNCTIONALITY
-// resetBtn.addEventListener('click', () => {
-//   hasStarted = false;
-// });
+resetBtn.addEventListener('click', () => {
+  minutes = +minutesInput.value;
+  seconds = +secondsInput.value;
+
+  if (!hasStarted) {
+    currentTimerValue = parseTime();
+    timerDOMTag.innerText = currentTimerValue;
+  }
+});
 
 timerDOMTag.innerText = `00m:00s`;
