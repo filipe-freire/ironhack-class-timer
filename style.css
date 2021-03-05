@@ -58,6 +58,7 @@ footer {
   padding: 1.5em 1.5em;
   background-color: var(--clr-dark);
   text-align: center;
+  font-style: italic;
 }
 
 h1 {
@@ -104,7 +105,7 @@ button {
 
 .author {
   font-family: var(--font-author);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: var(--clr-author);
 }
 
@@ -205,6 +206,16 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 1em auto;
   box-shadow: #1a0c6b63 0px 28px 90px 0px;
   border-radius: 5px;
+}
+
+.footer-html {
+  color: #dd4b25;
+}
+.footer-css {
+  color: #254bdd;
+}
+.footer-js {
+  color: #efd81d;
 }
 
 /*! ----------- ID's ----------- */

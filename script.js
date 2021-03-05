@@ -1,7 +1,9 @@
 const timerDOMTag = document.getElementById('time');
 const startBtn = document.getElementById('startBtn');
+const date = document.getElementById('date');
 
-//TODO: FIX SET FUNCTIONALITY
+date.innerText = `${new Date().getFullYear()}`;
+
 const resetBtn = document.getElementById('resetBtn');
 
 let minutesInput = document.getElementById('minutes'); // .value;
