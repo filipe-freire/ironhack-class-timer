@@ -1,10 +1,13 @@
 const timerDOMTag = document.getElementById('time');
 const startBtn = document.getElementById('startBtn');
+const resetBtn = document.getElementById('resetBtn');
 const date = document.getElementById('date');
-
 date.innerText = `${new Date().getFullYear()}`;
 
-const resetBtn = document.getElementById('resetBtn');
+// audio
+const startBeep = new Audio('./start-sound.wav');
+const stopBeep = new Audio('./stop-sound.wav');
+const confetti = new Audio('./confetti.mp3');
 
 let minutesInput = document.getElementById('minutes'); // .value;
 let secondsInput = document.getElementById('seconds'); // .value;
@@ -96,8 +99,17 @@ const timerLogic = () => {
   let currentTimerValue;
   let intervalId = setInterval(() => {
     if (hasStarted) {
+      // Make set btn appear only when timer is running
+      resetBtn.style.display = 'block';
       if (seconds <= 0 && minutes <= 0) {
         setBtnToStart();
+        confetti.play();
+        window.confetti({
+          particleCount: 150,
+          spread: 180
+        });
+        // Make set btn disappear after timer ends
+        resetBtn.style.display = 'none';
         return clearInterval(intervalId);
       }
       if (seconds === 0) {
@@ -117,6 +129,14 @@ const timerLogic = () => {
 // prevent double clicking on button
 let processing = false;
 startBtn.addEventListener('click', () => {
+  if (!minutes && !seconds) {
+    return;
+  }
+  if (startBtn.innerText === 'START') {
+    startBeep.play();
+  } else {
+    stopBeep.play();
+  }
   if (!processing) {
     processing = true;
     const x = setTimeout(() => {
@@ -139,10 +159,11 @@ resetBtn.addEventListener('click', () => {
   minutes = +minutesInput.value;
   seconds = +secondsInput.value;
 
-  if (!hasStarted) {
-    currentTimerValue = parseTime();
-    timerDOMTag.innerText = currentTimerValue;
-  }
+  startBeep.play();
+  // if (!hasStarted) {
+  //   currentTimerValue = parseTime();
+  //   timerDOMTag.innerText = currentTimerValue;
+  // }
 });
 
 timerDOMTag.innerText = `00m:00s`;
