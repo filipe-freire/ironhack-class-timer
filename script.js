@@ -1,21 +1,28 @@
-const timerDOMTag = document.getElementById('time');
-const startBtn = document.getElementById('startBtn');
-const resetBtn = document.getElementById('resetBtn');
-const date = document.getElementById('date');
+const timerDOMTag = document.getElementById("time");
+const startBtn = document.getElementById("startBtn");
+const resetBtn = document.getElementById("resetBtn");
+const date = document.getElementById("date");
 date.innerText = `${new Date().getFullYear()}`;
 
 // audio
-const startBeep = new Audio('./start-sound.wav');
-const stopBeep = new Audio('./stop-sound.wav');
-const confetti = new Audio('./confetti.mp3');
+const startBeep = new Audio("./start-sound.wav");
+const stopBeep = new Audio("./stop-sound.wav");
+const confetti = new Audio("./confetti.mp3");
 
-let minutesInput = document.getElementById('minutes'); // .value;
-let secondsInput = document.getElementById('seconds'); // .value;
+// Buttons
+const increaseMinutesBtn = document.querySelector(".minutes-increase-btn");
+const decreaseMinutesBtn = document.querySelector(".minutes-decrease-btn");
+const increaseSecondsBtn = document.querySelector(".seconds-increase-btn");
+const decreaseSecondsBtn = document.querySelector(".seconds-decrease-btn");
+
+let minutesInput = document.getElementById("minutes"); // .valueAsNumber;
+let secondsInput = document.getElementById("seconds"); // .valueAsNumber;
 
 let minutes = 15;
 let seconds = 0;
-let hasStarted = false;
+let timerIsRunning = false;
 
+//? Parsed String that is shown to the user
 function parseTime() {
   return minutes < 10 && seconds < 10
     ? `0${minutes}m:0${seconds}s`
@@ -33,7 +40,7 @@ function setTimer() {
     seconds.value = 59;
   }
 
-  if (!hasStarted) {
+  if (!timerIsRunning) {
     minutes = +minutesInput.value;
     seconds = +secondsInput.value;
     if (isNaN(minutes) || isNaN(seconds) || minutes < 0 || seconds < 0) return;
@@ -52,64 +59,55 @@ function setTimer() {
   return;
 }
 
-const increaseMinutesBtn = document
-  .querySelector('.minutes-increase-btn')
-  .addEventListener('click', () => {
-    minutesInput.value++;
-    setTimer();
-  });
+increaseMinutesBtn.addEventListener("click", () => {
+  minutesInput.value++;
+  setTimer();
+});
 
-const decreaseMinutesBtn = document
-  .querySelector('.minutes-decrease-btn')
-  .addEventListener('click', () => {
-    if (minutesInput.value - 1 < 0) return;
-    minutesInput.value--;
-    setTimer();
-  });
+decreaseMinutesBtn.addEventListener("click", () => {
+  if (+minutesInput.value - 1 < 0) return;
+  minutesInput.value--;
+  setTimer();
+});
 
-const increaseSecondsBtn = document
-  .querySelector('.seconds-increase-btn')
-  .addEventListener('click', () => {
-    if (secondsInput.valueAsNumber + 1 >= 60) return;
-    secondsInput.value++;
-    setTimer();
-  });
+increaseSecondsBtn.addEventListener("click", () => {
+  if (+secondsInput.value + 1 >= 60) return;
+  secondsInput.value++;
+  setTimer();
+});
 
-const decreaseSecondsBtn = document
-  .querySelector('.seconds-decrease-btn')
-  .addEventListener('click', () => {
-    if (secondsInput.value - 1 < 0) return;
-    secondsInput.value--;
-    setTimer();
-  });
+decreaseSecondsBtn.addEventListener("click", () => {
+  if (+secondsInput.value - 1 < 0) return;
+  secondsInput.value--;
+  setTimer();
+});
 
 function setBtnToStart() {
-  hasStarted = false;
-  startBtn.classList.toggle('stop');
-  startBtn.innerText = 'START';
+  timerIsRunning = false;
+  startBtn.classList.toggle("stop");
+  startBtn.innerText = "START";
 }
 
 function setBtnToStop() {
-  hasStarted = true;
-  startBtn.classList.toggle('stop');
-  startBtn.innerText = 'STOP';
+  timerIsRunning = true;
+  startBtn.classList.toggle("stop");
+  startBtn.innerText = "STOP";
 }
 
 const timerLogic = () => {
-  let currentTimerValue;
   let intervalId = setInterval(() => {
-    if (hasStarted) {
+    if (timerIsRunning) {
       // Make set btn appear only when timer is running
-      resetBtn.style.display = 'block';
+      resetBtn.style.display = "block";
       if (seconds <= 0 && minutes <= 0) {
         setBtnToStart();
         confetti.play();
         window.confetti({
           particleCount: 150,
-          spread: 180
+          spread: 180,
         });
         // Make set btn disappear after timer ends
-        resetBtn.style.display = 'none';
+        resetBtn.style.display = "none";
         return clearInterval(intervalId);
       }
       if (seconds === 0) {
@@ -118,8 +116,7 @@ const timerLogic = () => {
       } else {
         seconds--;
       }
-      currentTimerValue = parseTime();
-      timerDOMTag.innerText = currentTimerValue;
+      timerDOMTag.innerText = parseTime();
     } else {
       clearInterval(intervalId);
     }
@@ -128,25 +125,28 @@ const timerLogic = () => {
 
 // prevent double clicking on button
 let processing = false;
-startBtn.addEventListener('click', () => {
+startBtn.addEventListener("click", () => {
   if (!minutes && !seconds) {
     return;
   }
-  if (startBtn.innerText === 'START') {
-    startBeep.play();
-  } else {
-    stopBeep.play();
-  }
+
+  startBtn.innerText === "START" ? startBeep.play() : stopBeep.play();
+
   if (!processing) {
     processing = true;
     const x = setTimeout(() => {
-      if (seconds < 0 || seconds > 59 || minutes < 0 || (minutes === 0 && seconds === 0)) {
+      if (
+        seconds < 0 ||
+        seconds > 59 ||
+        minutes < 0 ||
+        (minutes === 0 && seconds === 0)
+      ) {
         return;
       }
-      if (hasStarted) {
+      if (timerIsRunning) {
         setBtnToStart();
       } else {
-        resetBtn.style.display = 'block';
+        resetBtn.style.display = "block";
         setBtnToStop();
         timerLogic();
       }
@@ -155,15 +155,11 @@ startBtn.addEventListener('click', () => {
   }
 });
 
-resetBtn.addEventListener('click', () => {
+resetBtn.addEventListener("click", () => {
   minutes = +minutesInput.value;
   seconds = +secondsInput.value;
 
   startBeep.play();
-  // if (!hasStarted) {
-  //   currentTimerValue = parseTime();
-  //   timerDOMTag.innerText = currentTimerValue;
-  // }
 });
 
-timerDOMTag.innerText = `00m:00s`;
+timerDOMTag.innerText = parseTime();
