@@ -68,18 +68,6 @@ body {
   min-height: 100vh;
 }
 
-@keyframes GradientLoop {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 footer {
   position: absolute;
   width: 100%;
@@ -160,7 +148,6 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
-
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -178,7 +165,6 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
   position: relative;
 }
-
 .minutes-container > input,
 .seconds-container > input {
   outline: 2px solid var(--clr-outline);
@@ -193,7 +179,6 @@ input[type="number"]::-webkit-outer-spin-button {
   font-weight: 600;
   letter-spacing: 0.1ch;
 }
-
 .minutes-container > label,
 .seconds-container > label {
   font-size: 1.9rem;
@@ -230,7 +215,6 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   max-width: 550px;
 }
-
 .btn-wrapper > button {
   margin: 1em auto;
   box-shadow: #1a0c6b63 0px 28px 90px 0px;
@@ -265,6 +249,18 @@ input[type="number"]::-webkit-outer-spin-button {
 #resetBtn {
   background-color: var(--clr-resetBtn);
   display: none;
+}
+
+@keyframes GradientLoop {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @media only screen and (max-width: 750px) {
